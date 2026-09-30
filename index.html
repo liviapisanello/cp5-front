@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bootstrap</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link href="style/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid" style="background-color: black">
+        <a class="navbar-brand" href="#" style="display: flex">
+          <h4 class="logo" id="grao">Grão</h4>
+          <h4 class="logo" id="nobre">Nobre</h4>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Depoimento</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">FAQ</a>
+            </li>
+          </ul>
+
+          <button
+            class="btn btn-outline-success ms-3"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Comprar agora
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="banner">
+      <div class="banner">
+        <div class="col-md-7">
+          <h1>
+            Café de origem,<br />
+            torrado com propósito.
+          </h1>
+          <p>
+            A Grão Nobre trabalha direto com pequenos produtores para levar até
+            você grãos especiais, torrados em lotes pequenos toda semana.
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <img src="assets/cafe-imagem.jpg" class="img-fluid" alt="Café" />
+        </div>
+      </div>
+    </section>
+
+    <section class="depoimentos">
+      <p id="text-depoimentos">QUEM JÁ EXPERIMENTOU</p>
+      <h3>O que dizem nossos clientes</h3>
+
+      <div id="carouselExample" class="carousel slide position-relative w-100">
+        <div class="carousel-item active text-center">
+          <div class="depoimento">
+            <div class="stars">★★★★★</div>
+            <p class="depoimento-texto">
+              "Melhor café que já experimentei em assinatura. Chega sempre
+              fresquinho."
+            </p>
+            <div class="autor-box">
+              <div class="avatar"></div>
+              <div class="autor-info">
+                <strong>Marina Alves</strong>
+                <span>Assinante desde 2023</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item text-center">
+          <div class="depoimento">
+            <div class="stars">★★★★★</div>
+            <p class="depoimento-texto">
+              "O sabor é incrível e a entrega é muito rápida."
+            </p>
+            <div class="autor-box">
+              <div class="avatar"></div>
+              <div class="autor-info">
+                <strong>João Silva</strong>
+                <span>Assinante desde 2022</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item text-center">
+          <div class="depoimento">
+            <div class="stars">★★★★★</div>
+            <p class="depoimento-texto">
+              "Finalmente encontrei um café que realmente gosto."
+            </p>
+            <div class="autor-box">
+              <div class="avatar"></div>
+              <div class="autor-info">
+                <strong>Pedro Oliveira</strong>
+                <span>Assinante desde 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon-custom" aria-hidden="true"
+            >&#10094;</span
+          >
+          <span class="visually-hidden">Anterior</span>
+        </button>
+
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon-custom" aria-hidden="true"
+            >&#10095;</span
+          >
+          <span class="visually-hidden">Próximo</span>
+        </button>
+      </div>
+
+      <div class="carousel-indicators-custom">
+        <button
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+
+        <button
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+
+        <button
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+    </section>
+
+    <section class="perguntas-frequentes">
+      <h3>Perguntas frequentes</h3>
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              Qual a validade do café após aberto?
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              O café pode ser consumido tranquilamente em até dois meses depois
+              de aberto.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              Vocês entregam para todo o Brasil?
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              Sim! Enviamos para todas as regiões, com prazo médio de 3 a 7 dias
+              úteis dependendo da localidade.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              Posso cancelar minha assinatura quando quiser!
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              Não tem permanência mínima de assinatura, mas é preciso avisar com
+              pelo menos 15 dias de antencedência.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Faça seu pedido
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="checkDefault"
+                />
+                <label class="form-check-label" for="checkDefault">
+                  Kit de degustação
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="checkDefault"
+                />
+                <label class="form-check-label" for="checkDefault">
+                  1 pacote de 250g
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="checkDefault"
+                />
+                <label class="form-check-label" for="checkDefault">
+                  5 pacotes de 250g
+                </label>
+              </div>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">
+              Ir para o carrinho
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-dark text-center py-3">
+      © 2026 Grão Nobre. Marca fictícia criada para fins didáticos. 
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
