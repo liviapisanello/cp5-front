@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Tailwind</title>
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<!-- - verde profundo (#1B4332)
+- off-white (#EFE7D6)
+- preto (#2A241C)
+- vermelho-linha (#9A3324)
+- dourado-terra (#A9895F) -->
+
+<body class="bg-[#EFE7D6] font-['Work_Sans'] gap-4 flex flex-col">
+    <nav class="flex py-4 justify-around items-center px-6 border-b-1 border-[#A9895F]">
+        <div class="flex font-semibold font-['Fraunces'] gap-1">
+            <h4>Fio</h4>
+            <h4 class="text-[#9A3324] italic">&</h4>
+            <h4>Prensa</h4>
+        </div>
+
+        <div class="gap-6 flex">
+            <a href="#oficio">O ofício</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#pecas">Peças</a>
+            <a href="#contato">Contato</a>
+        </div>
+
+        <button class="bg-[#1B4332] text-white p-2 text-sm rounded-sm">Agendar visita</button>
+    </nav>
+
+    <section class="flex px-18 py-12 grid grid-cols-2 gap-20">
+        <div class="gap-6 flex flex-col">
+            <h1 class="font-['Fraunces'] text-5xl font-semibold">Livros que se seguram nas mãos por gerações.</h1>
+            <p>Costuramos, colamos e pensamos à mão - do caderno de uso diário à restauração de exemplares de família.
+                Cada peça passa pelas mesmas quatro etapas que aprendemos há trinta anos.</p>
+            <button>Ver serviços</button>
+        </div>
+        <div>
+            <div>
+                <p>Linho belga, cor terracota</p>
+                <p>Capa dura, acabamento fosco</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1B4332] text-white flex-col flex px-18 py-12 gap-8">
+        <h2 class="font-['Fraunces'] text-xl font-semibold">Visite o ateliê</h2>
+
+        <div class="justify-between flex text-xs">
+            <div>
+                <p>ENDEREÇO</p>
+                <p>Rua dos Encadernadores, 214 - Lapa, São Paulo</p>
+            </div>
+            <div>
+                <p>HORÁRIO</p>
+                <p>Terça a sábado, 10h às 18h</p>
+            </div>
+            <div>
+                <p>CONTATO</p>
+                <p>contato@fioeprensa.com.br</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
