@@ -1,78 +1,240 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo Tailwind</title>
-    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
+      href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css"
+      rel="stylesheet"
+    />
 
-<!-- - verde profundo (#1B4332)
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+
+  <!-- - verde profundo (#1B4332)
 - off-white (#EFE7D6)
 - preto (#2A241C)
 - vermelho-linha (#9A3324)
 - dourado-terra (#A9895F) -->
 
-<body class="bg-[#EFE7D6] font-['Work_Sans'] gap-4 flex flex-col">
-    <nav class="flex py-4 justify-around items-center px-6 border-b-1 border-[#A9895F]">
+  <body class="bg-[#EFE7D6] font-['Work_Sans']">
+    <nav class="border-b border-[#A9895F]">
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
+      >
         <div class="flex font-semibold font-['Fraunces'] gap-1">
-            <h4>Fio</h4>
-            <h4 class="text-[#9A3324] italic">&</h4>
-            <h4>Prensa</h4>
+          <h4>Fio</h4>
+          <h4 class="text-[#9A3324] italic">&</h4>
+          <h4>Prensa</h4>
         </div>
 
         <div class="gap-6 flex">
-            <a href="#oficio">O ofício</a>
-            <a href="#servicos">Serviços</a>
-            <a href="#pecas">Peças</a>
-            <a href="#contato">Contato</a>
+          <a href="#oficio">O ofício</a>
+          <a href="#servicos">Serviços</a>
+          <a href="#pecas">Peças</a>
+          <a href="#contato">Contato</a>
         </div>
 
-        <button class="bg-[#1B4332] text-white p-2 text-sm rounded-sm">Agendar visita</button>
+        <button class="bg-[#1B4332] text-white p-2 text-sm rounded-sm">
+          Agendar visita
+        </button>
+      </div>
     </nav>
 
-    <section class="flex px-18 py-12 grid grid-cols-2 gap-20">
-        <div class="gap-6 flex flex-col">
-            <h1 class="font-['Fraunces'] text-5xl font-semibold">Livros que se seguram nas mãos por gerações.</h1>
-            <p>Costuramos, colamos e pensamos à mão - do caderno de uso diário à restauração de exemplares de família.
-                Cada peça passa pelas mesmas quatro etapas que aprendemos há trinta anos.</p>
-            <button>Ver serviços</button>
+    <section id="oficio"
+      class="max-w-7xl mx-auto px-6 py-12 flex justify-between items-center"
+    >
+      <div class="gap-6 flex flex-col">
+        <h1 class="font-['Fraunces'] text-5xl font-semibold">
+          Livros que se <br />
+          seguram nas mãos <br />
+          por gerações.
+        </h1>
+
+        <p>
+          Costuramos, colamos e pensamos à mão - do caderno <br />
+          de uso diário à restauração de exemplares de família. <br />
+          Cada peça passa pelas mesmas quatro etapas que <br />
+          aprendemos há trinta anos.
+        </p>
+
+        <button
+          class="text-[#1B4332] border-2 border-[#1B4332] py-3 px-6 text-sm w-fit rounded-sm"
+        >
+          Ver serviços
+        </button>
+      </div>
+
+      <div class="w-lg">
+        <div
+          class="border-y border-[#A9895F] py-6 px-12 flex gap-4 items-center"
+        >
+          <div
+            class="w-8 h-8 bg-[#9A3324] border-2 border-[0.5px] border-[#A9895F]"
+          ></div>
+          <div class="flex-col">
+            <p class="font-semibold">Linho belga, cor terracota</p>
+            <p>Capa dura, acabamento fosco</p>
+          </div>
         </div>
-        <div>
-            <div>
-                <p>Linho belga, cor terracota</p>
-                <p>Capa dura, acabamento fosco</p>
-            </div>
+        <div class="py-6 px-12 flex gap-4 items-center">
+          <div
+            class="w-8 h-8 bg-[#1B4332] border-2 border-[0.5px] border-[#A9895F]"
+          ></div>
+          <div class="flex-col">
+            <p class="font-semibold">Linho belga, cor terracota</p>
+            <p>Capa dura, acabamento fosco</p>
+          </div>
         </div>
+        <div
+          class="border-y border-[#A9895F] py-6 px-12 flex gap-4 items-center"
+        >
+          <div
+            class="w-8 h-8 bg-[#A9894F] border-2 border-[0.5px] border-[#A9895F]"
+          ></div>
+          <div class="flex-col">
+            <p class="font-semibold">Linho belga, cor terracota</p>
+            <p>Capa dura, acabamento fosco</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <footer class="bg-[#1B4332] text-white flex-col flex px-18 py-12 gap-8">
+    <section id="servicos" class="bg-[#e0d5c0]">
+      <div class="max-w-7xl mx-auto px-6 py-12 gap-10 flex flex-col">
+        <div class="gap-2 flex flex-col">
+          <h1 class="font-semibold text-3xl font-['Fraunces']">
+            O ofício, em quatro etapas
+          </h1>
+          <p>
+            Cada livro passa pela mesma sequência de trabalho, do primeiro
+            caderno de páginas soltas até a prensa final.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-4 divide-x-2 divide-[#A9895F] gap-8">
+          <div class="gap-3 flex flex-col">
+            <h1 class="font-semibold text-[#9A3324] font-['Fraunces'] text-2xl">
+              01
+            </h1>
+            <p class="font-semibold font-['Fraunces']">Dobra</p>
+            <p>
+              As folhas são dobradas em cadernos e organizadas na ordem de
+              leitura.
+            </p>
+          </div>
+          <div class="gap-3 flex flex-col">
+            <h1 class="font-semibold text-[#9A3324] font-['Fraunces'] text-2xl">
+              02
+            </h1>
+            <p class="font-semibold font-['Fraunces']">Costura</p>
+            <p>
+              Os cadernos são costurados manualmente com fio encerado, ponto a
+              ponto.
+            </p>
+          </div>
+          <div class="gap-3 flex flex-col">
+            <h1 class="font-semibold text-[#9A3324] font-['Fraunces'] text-2xl">
+              03
+            </h1>
+            <p class="font-semibold font-['Fraunces']">Colagem</p>
+            <p>
+              O lombo recebe cola natural, que dá firmeza sem engessar o papel.
+            </p>
+          </div>
+          <div class="gap-3 flex flex-col">
+            <h1 class="font-semibold text-[#9A3324] font-['Fraunces'] text-2xl">
+              04
+            </h1>
+            <p class="font-semibold font-['Fraunces']">Prensagem</p>
+            <p>
+              O volume descansa na prensa por 24h para fixar a forma definitiva.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pecas">
+      <div class="max-w-7xl mx-auto px-6 py-12 gap-10 flex flex-col">
+        <h1 class="font-semibold text-3xl font-['Fraunces']">Peças recentes</h1>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div
+            class="w-full h-64 bg-linear-to-br from-[#e0d5c0] to-[#c0ab7e] content-end p-4 rounded-sm"
+          >
+            <p class="uppercase text-sm">Caderno de campo</p>
+          </div>
+
+          <div class="grid grid-rows-2 gap-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                class="w-full h-32 bg-linear-to-br from-[#e0d5c0] to-[#c0ab7e] content-end p-4 rounded-sm"
+              >
+                <p class="uppercase text-sm">Restauro 1948</p>
+              </div>
+              <div
+                class="w-full h-32 bg-linear-to-br from-[#e0d5c0] to-[#c0ab7e] content-end p-4 rounded-sm"
+              >
+                <p class="uppercase text-sm">Álbum de casamento</p>
+              </div>
+            </div>
+
+            <div
+              class="w-full h-28 bg-linear-to-br from-[#e0d5c0] to-[#c0ab7e] content-end p-4 rounded-sm"
+            >
+              <p class="uppercase text-sm">Edição limitada, 12 exemplares</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="depoimentos" class="border-y-1 border-[#9A3324]">
+      <div
+        class="max-w-7xl mx-auto px-6 py-12 gap-10 flex flex-col grid grid-cols-2"
+      >
+        <div class="border-l-3 border-[#9A3324] px-6 gap-6 flex flex-col">
+          <h2
+            class="font-['Fraunces'] italic font-semibold text-2xl text-[#2A241C]"
+          >
+            Levei o diário do meu avô, que estava se desfazendo, e voltou como
+            se tivesse sido feito ontem - mas ainda com a capa original.
+          </h2>
+
+          <p><strong>Helena Mourão</strong> - cliente desde 2019</p>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contato" class="bg-[#1B4332] text-white">
+      <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-8">
         <h2 class="font-['Fraunces'] text-xl font-semibold">Visite o ateliê</h2>
 
         <div class="justify-between flex text-xs">
-            <div>
-                <p>ENDEREÇO</p>
-                <p>Rua dos Encadernadores, 214 - Lapa, São Paulo</p>
-            </div>
-            <div>
-                <p>HORÁRIO</p>
-                <p>Terça a sábado, 10h às 18h</p>
-            </div>
-            <div>
-                <p>CONTATO</p>
-                <p>contato@fioeprensa.com.br</p>
-            </div>
+          <div>
+            <p>ENDEREÇO</p>
+            <p>Rua dos Encadernadores, 214 - Lapa, São Paulo</p>
+          </div>
+
+          <div>
+            <p>HORÁRIO</p>
+            <p>Terça a sábado, 10h às 18h</p>
+          </div>
+
+          <div>
+            <p>CONTATO</p>
+            <p>contato@fioeprensa.com.br</p>
+          </div>
         </div>
+      </div>
     </footer>
-
-</body>
-
+  </body>
 </html>
