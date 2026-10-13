@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Madrugada Hacker · Hackathon universitário na Avenida Paulista</title>
+    <meta
+      name="description"
+      content="Das 19h às 7h na Avenida Paulista: uma noite inteira de código, mini CTF e demo day ao nascer do sol. Hackathon para universitários, 21 e 22 de novembro de 2026."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.13"></script>
+
+    <!-- Tokens e componentes: ver CLAUDE.md -->
+    <style type="text/tailwindcss">
+      @theme {
+        --color-hk-bg: #0b0f1a;
+        --color-hk-surface: #121828;
+        --color-hk-white: #f8fafc;
+        --color-hk-purple: #8b5cf6;
+        --color-hk-pink: #ec4899;
+        --color-hk-blue: #3b82f6;
+        --color-hk-cyan: #22d3ee;
+        --color-hk-yellow: #fbbf24;
+
+        --font-display: "Big Shoulders Display", Impact, "Arial Narrow", sans-serif;
+        --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+        --font-pixel: "VT323", ui-monospace, monospace;
+
+        --animate-marquee: marquee 40s linear infinite;
+        @keyframes marquee {
+          to { transform: translateX(-50%); }
+        }
+      }
+
+      @layer base {
+        html { color-scheme: dark; }
+        body { @apply bg-hk-bg font-sans text-hk-white antialiased; }
+        ::selection { @apply bg-hk-pink text-hk-bg; }
+        section[id] { scroll-margin-top: 4.5rem; }
+      }
+
+      @layer components {
+        /* Títulos */
+        .title {
+          @apply font-display leading-[0.95] font-extrabold tracking-tight uppercase text-balance;
+        }
+
+        /* Botões: .btn + variação. Cantos retos e sombra dura. */
+        .btn {
+          @apply inline-flex items-center justify-center gap-2 border-2 px-6 py-3 font-display text-lg font-extrabold tracking-wide uppercase transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hk-cyan;
+        }
+        .btn-primary {
+          @apply border-hk-white bg-hk-white text-hk-bg shadow-[5px_5px_0_var(--color-hk-purple)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[7px_7px_0_var(--color-hk-pink)] active:translate-x-1 active:translate-y-1 active:shadow-none;
+        }
+        .btn-outline {
+          @apply border-hk-white/30 text-hk-white hover:border-hk-cyan hover:text-hk-cyan;
+        }
+
+        /* Etiquetas em fonte pixel */
+        .tag {
+          @apply inline-block border px-2 pt-0.5 font-pixel text-base leading-tight uppercase;
+        }
+        .tag-purple { @apply border-hk-purple/50 text-hk-purple; }
+        .tag-pink { @apply border-hk-pink/50 text-hk-pink; }
+        .tag-blue { @apply border-hk-blue/50 text-hk-blue; }
+        .tag-cyan { @apply border-hk-cyan/50 text-hk-cyan; }
+        .tag-yellow { @apply border-hk-yellow bg-hk-yellow text-hk-bg; }
+        .tag-neutral { @apply border-hk-white/25 text-hk-white/70; }
+
+        /* Programação: .phase (fase da noite) + .slot (atividade) */
+        .phase {
+          @apply grid border border-hk-white/10 lg:grid-cols-[17rem_1fr];
+        }
+        .phase-head {
+          @apply border-b border-hk-white/10 p-6 lg:border-r lg:border-b-0;
+        }
+        .slot {
+          @apply grid grid-cols-[4.25rem_1fr] gap-4 p-5 transition-colors hover:bg-hk-white/[0.03] sm:grid-cols-[6.5rem_1fr] sm:p-6;
+        }
+        .slot-time {
+          @apply font-pixel text-3xl leading-none sm:text-4xl;
+        }
+        .slot-title {
+          @apply font-display text-2xl leading-none font-bold uppercase sm:text-3xl;
+        }
+        .slot-hot {
+          @apply bg-hk-pink/10 shadow-[inset_4px_0_0_var(--color-hk-pink)] hover:bg-hk-pink/15;
+        }
+
+        /* Crachás de palestrantes: .badge + faixa de função */
+        .badge {
+          @apply relative flex h-full flex-col border border-hk-white/15 bg-hk-surface p-5 pt-4 transition duration-300 hover:rotate-0 hover:border-hk-white/40;
+        }
+        .badge-host {
+          @apply border-hk-pink shadow-[6px_6px_0_var(--color-hk-pink)];
+        }
+        .badge-strip {
+          @apply -mx-5 mt-auto -mb-5 px-5 py-2 font-pixel text-lg uppercase;
+        }
+
+        /* Formulário */
+        .field-label { @apply mb-1.5 block text-sm font-bold text-hk-white/90; }
+        .field-input {
+          @apply w-full border border-hk-white/20 bg-hk-bg/80 px-4 py-3 text-hk-white transition placeholder:text-hk-white/35 focus:border-hk-cyan focus:shadow-[3px_3px_0_var(--color-hk-cyan)] focus:outline-none;
+        }
+        .field-input[aria-invalid="true"] { @apply border-hk-pink shadow-[3px_3px_0_var(--color-hk-pink)]; }
+        .field-error { @apply mt-1.5 hidden font-pixel text-lg leading-tight text-hk-pink; }
+        .field-error.is-visible { @apply block; }
+        .choice {
+          @apply flex cursor-pointer items-center gap-3 border border-hk-white/15 bg-hk-bg/60 px-4 py-3 transition hover:border-hk-white/40 has-checked:border-hk-purple has-checked:bg-hk-purple/15 has-checked:shadow-[3px_3px_0_var(--color-hk-purple)] has-focus-visible:outline-2 has-focus-visible:outline-hk-cyan;
+        }
+      }
+
+      @utility text-gradient {
+        @apply bg-linear-to-r from-hk-purple via-hk-pink to-hk-yellow bg-clip-text text-transparent;
+      }
+      @utility text-outline {
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--color-hk-white);
+      }
+      @utility bg-stars {
+        background-image:
+          radial-gradient(1.5px 1.5px at 12% 18%, rgb(248 250 252 / 0.9), transparent),
+          radial-gradient(1px 1px at 33% 62%, rgb(248 250 252 / 0.6), transparent),
+          radial-gradient(1px 1px at 58% 12%, rgb(248 250 252 / 0.7), transparent),
+          radial-gradient(1.5px 1.5px at 77% 44%, rgb(34 211 238 / 0.8), transparent),
+          radial-gradient(1px 1px at 88% 82%, rgb(248 250 252 / 0.5), transparent),
+          radial-gradient(1px 1px at 45% 88%, rgb(248 250 252 / 0.6), transparent),
+          radial-gradient(1.5px 1.5px at 5% 74%, rgb(236 72 153 / 0.7), transparent);
+        background-size: 320px 320px;
+      }
+      @utility moon {
+        border-radius: 9999px;
+        box-shadow:
+          inset -22px 10px 0 0 var(--color-hk-yellow),
+          0 0 80px -10px rgb(251 191 36 / 0.35);
+      }
+    </style>
+  </head>
+
+  <body class="overflow-x-clip">
+    <a
+      href="#conteudo"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-hk-white focus:px-4 focus:py-2 focus:text-hk-bg"
+      >Pular para o conteúdo</a
+    >
+
+    <!-- ============ NAVBAR ============ -->
+    <header id="topo" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-colors duration-300">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6" aria-label="Principal">
+        <a href="#" class="flex items-center gap-2.5">
+          <span class="moon size-6 [box-shadow:inset_-6px_3px_0_0_var(--color-hk-yellow)]" aria-hidden="true"></span>
+          <span class="font-display text-2xl leading-none font-black tracking-tight uppercase">Madrugada<span class="text-hk-pink">Hacker</span></span>
+        </a>
+
+        <ul class="hidden items-center gap-6 font-pixel text-xl uppercase md:flex">
+          <li><a class="text-hk-white/70 hover:text-hk-cyan" href="#sobre">Sobre</a></li>
+          <li><a class="text-hk-white/70 hover:text-hk-cyan" href="#programacao">Programação</a></li>
+          <li><a class="text-hk-white/70 hover:text-hk-cyan" href="#palestrantes">Quem vem</a></li>
+          <li><a class="text-hk-white/70 hover:text-hk-cyan" href="#local">Local</a></li>
+          <li><a class="text-hk-white/70 hover:text-hk-cyan" href="#faq">FAQ</a></li>
+        </ul>
+
+        <div class="flex items-center gap-3">
+          <a href="#inscricao" class="btn btn-primary hidden px-4 py-1.5 text-base sm:inline-flex">Quero ir</a>
+          <button
+            id="menu-toggle"
+            type="button"
+            class="btn btn-outline px-3 py-2 md:hidden"
+            aria-expanded="false"
+            aria-controls="menu-mobile"
+            aria-label="Abrir menu"
+          >
+            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" /></svg>
+          </button>
+        </div>
+      </nav>
+
+      <div id="menu-mobile" class="hidden border-t border-hk-white/10 bg-hk-bg/95 backdrop-blur md:hidden">
+        <ul class="flex flex-col px-4 py-3 font-pixel text-2xl uppercase">
+          <li><a class="block px-2 py-2.5 hover:text-hk-cyan" href="#sobre">Sobre</a></li>
+          <li><a class="block px-2 py-2.5 hover:text-hk-cyan" href="#programacao">Programação</a></li>
+          <li><a class="block px-2 py-2.5 hover:text-hk-cyan" href="#palestrantes">Quem vem</a></li>
+          <li><a class="block px-2 py-2.5 hover:text-hk-cyan" href="#local">Local</a></li>
+          <li><a class="block px-2 py-2.5 hover:text-hk-cyan" href="#faq">FAQ</a></li>
+          <li class="pt-3 pb-1"><a class="btn btn-primary w-full" href="#inscricao">Quero ir</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Relógio da página: a rolagem vai das 19h às 7h -->
+    <div
+      id="relogio-scroll"
+      class="fixed right-4 bottom-4 z-40 hidden items-center gap-2 border border-hk-white/15 bg-hk-bg/85 px-3 py-1.5 font-pixel text-2xl leading-none backdrop-blur sm:flex"
+      aria-hidden="true"
+    >
+      <span id="relogio-icone">☾</span><span id="relogio-hora">19:00</span>
+    </div>
+
+    <main id="conteudo">
+      <!-- ============ HERO ============ -->
+      <section class="bg-stars relative overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-24">
+        <div class="pointer-events-none absolute -top-32 -left-32 size-[34rem] rounded-full bg-hk-blue/20 blur-[120px]" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute right-0 bottom-0 size-[28rem] rounded-full bg-hk-purple/20 blur-[120px]" aria-hidden="true"></div>
+        <div class="moon pointer-events-none absolute top-60 right-[6%] size-20 sm:top-28 sm:size-32 lg:size-40" aria-hidden="true"></div>
+
+        <div class="relative mx-auto max-w-6xl px-4 sm:px-6">
+          <p class="inline-block -rotate-2 bg-hk-yellow px-3 py-1 font-pixel text-xl text-hk-bg uppercase sm:text-2xl">
+            Sáb 21.11 · 19h → Dom 22.11 · 7h
+          </p>
+
+          <h1 class="title mt-6 text-[clamp(4.25rem,17vw,12.5rem)] font-black">
+            <span class="block">Madrugada</span>
+            <span class="text-gradient block pb-2">Hacker</span>
+          </h1>
+
+          <div class="mt-10 grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+            <div class="max-w-xl">
+              <p class="text-lg text-pretty text-hk-white/75 sm:text-xl">
+                Doze horas sem dormir, na Avenida Paulista. Você chega de noite com uma ideia
+                e sai de manhã com um projeto rodando, apresentado para a banca enquanto o sol nasce.
+              </p>
+              <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                <a href="#inscricao" class="btn btn-primary">Garantir minha vaga</a>
+                <a href="#programacao" class="btn btn-outline">Ver a noite</a>
+              </div>
+              <p class="mt-6 flex items-center gap-2 text-sm text-hk-white/60">
+                <svg class="size-4 shrink-0 text-hk-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>
+                Avenida Paulista, São Paulo · gratuito · 300 vagas
+              </p>
+            </div>
+
+            <!-- Contagem regressiva -->
+            <div class="border border-hk-white/20 bg-hk-bg/70 p-5 shadow-[6px_6px_0_var(--color-hk-cyan)] backdrop-blur sm:p-6">
+              <p id="countdown-label" class="font-pixel text-xl text-hk-white/60 uppercase">&gt; faltam para o check-in</p>
+              <p class="sr-only">O evento começa em 21 de novembro de 2026, às 19h, horário de Brasília.</p>
+              <div id="countdown" class="mt-2 flex items-start gap-1 font-pixel leading-none sm:gap-2" aria-hidden="true">
+                <div class="text-center"><span data-unit="days" class="block text-6xl sm:text-7xl">--</span><span class="text-lg text-hk-white/50">dias</span></div>
+                <span class="text-6xl text-hk-white/30 sm:text-7xl">:</span>
+                <div class="text-center"><span data-unit="hours" class="block text-6xl sm:text-7xl">--</span><span class="text-lg text-hk-white/50">hrs</span></div>
+                <span class="text-6xl text-hk-white/30 sm:text-7xl">:</span>
+                <div class="text-center"><span data-unit="minutes" class="block text-6xl sm:text-7xl">--</span><span class="text-lg text-hk-white/50">min</span></div>
+                <span class="text-6xl text-hk-white/30 sm:text-7xl">:</span>
+                <div class="text-center"><span data-unit="seconds" class="block text-6xl text-hk-cyan sm:text-7xl">--</span><span class="text-lg text-hk-white/50">seg</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FAIXA ============ -->
+      <div class="relative z-10 -my-2 -rotate-1 overflow-hidden border-y-2 border-hk-bg bg-linear-to-r from-hk-purple to-hk-pink py-2" aria-hidden="true">
+        <div class="flex w-max animate-marquee gap-8 font-pixel text-2xl whitespace-nowrap uppercase motion-reduce:animate-none sm:text-3xl">
+          <span>Code Rush</span><span class="text-hk-yellow">✦</span><span>Midnight Debugging</span><span class="text-hk-yellow">✦</span><span>Insomnia Mode</span><span class="text-hk-yellow">✦</span><span>Coffee &amp; Commit</span><span class="text-hk-yellow">✦</span><span>Final Commit</span><span class="text-hk-yellow">✦</span><span>Sunrise Demo Day</span><span class="text-hk-yellow">✦</span>
+          <span>Code Rush</span><span class="text-hk-yellow">✦</span><span>Midnight Debugging</span><span class="text-hk-yellow">✦</span><span>Insomnia Mode</span><span class="text-hk-yellow">✦</span><span>Coffee &amp; Commit</span><span class="text-hk-yellow">✦</span><span>Final Commit</span><span class="text-hk-yellow">✦</span><span>Sunrise Demo Day</span><span class="text-hk-yellow">✦</span>
+        </div>
+      </div>
+
+      <!-- ============ SOBRE ============ -->
+      <section id="sobre" class="py-24 sm:py-32">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+          <h2 class="title max-w-5xl text-4xl sm:text-6xl lg:text-7xl">
+            Das <span class="text-hk-cyan">19h</span> às <span class="text-hk-yellow">7h</span>,
+            300 universitários ocupam um andar na Paulista para construir algo
+            <span class="text-outline">do zero</span> antes do sol nascer.
+          </h2>
+
+          <div class="mt-14 grid gap-12 md:grid-cols-2">
+            <div class="space-y-4 text-lg text-hk-white/75">
+              <p>
+                Times de 3 a 5 pessoas recebem o mesmo desafio na abertura, às 20h. Ninguém sabe o tema
+                antes. Não precisa chegar com time: a gente forma na hora.
+              </p>
+              <p>
+                No meio da madrugada tem desafio surpresa e um mini CTF de segurança. E às 5h o código
+                congela, sem choro.
+              </p>
+            </div>
+
+            <dl class="grid grid-cols-2 border-t border-l border-hk-white/15">
+              <div class="border-r border-b border-hk-white/15 p-5">
+                <dt class="font-pixel text-xl text-hk-white/60 uppercase">sem parar</dt>
+                <dd class="order-first font-display text-6xl font-black text-hk-blue">12h</dd>
+              </div>
+              <div class="border-r border-b border-hk-white/15 p-5">
+                <dt class="font-pixel text-xl text-hk-white/60 uppercase">vagas</dt>
+                <dd class="order-first font-display text-6xl font-black text-hk-purple">300</dd>
+              </div>
+              <div class="border-r border-b border-hk-white/15 p-5">
+                <dt class="font-pixel text-xl text-hk-white/60 uppercase">mini CTF às 2h</dt>
+                <dd class="order-first font-display text-6xl font-black text-hk-pink">01</dd>
+              </div>
+              <div class="border-r border-b border-hk-white/15 p-5">
+                <dt class="font-pixel text-xl text-hk-white/60 uppercase">em prêmios</dt>
+                <dd class="order-first font-display text-6xl font-black text-hk-yellow">15k</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PROGRAMAÇÃO ============ -->
+      <section id="programacao" class="pb-24 sm:pb-32">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+          <h2 class="title text-5xl sm:text-7xl">A noite inteira,<br /><span class="text-hk-white/40">hora a hora.</span></h2>
+
+          <div class="mt-14 space-y-6">
+            <!-- Fase 1: Noite -->
+            <section class="phase bg-linear-to-br from-hk-blue/15 via-transparent to-transparent" aria-labelledby="fase-noite">
+              <header class="phase-head">
+                <div class="lg:sticky lg:top-24">
+                  <span class="moon block size-10 [box-shadow:inset_-10px_4px_0_0_var(--color-hk-blue)]" aria-hidden="true"></span>
+                  <h3 id="fase-noite" class="title mt-4 text-5xl text-hk-blue">Noite</h3>
+                  <p class="mt-1 font-pixel text-xl text-hk-white/60">19:00 → 23:59</p>
+                </div>
+              </header>
+              <ol class="divide-y divide-hk-white/10">
+                <li class="slot">
+                  <time class="slot-time text-hk-blue" datetime="2026-11-21T19:00">19:00</time>
+                  <div><span class="tag tag-neutral">Recepção</span><h4 class="slot-title mt-2">Credenciamento &amp; Cyber Welcome</h4><p class="mt-2 text-hk-white/70">Recepção dos participantes, entrega de kits, networking e ambientação com música eletrônica.</p></div>
+                </li>
+                <li class="slot">
+                  <time class="slot-time text-hk-blue" datetime="2026-11-21T20:00">20:00</time>
+                  <div><span class="tag tag-yellow">Marco</span><h4 class="slot-title mt-2">Abertura: The Hack Begins</h4><p class="mt-2 text-hk-white/70">Apresentação do desafio, regras, critérios de avaliação e formação das equipes.</p></div>
+                </li>
+                <li class="slot">
+                  <time class="slot-time text-hk-blue" datetime="2026-11-21T21:00">21:00</time>
+                  <div><span class="tag tag-purple">Palestras</span><h4 class="slot-title mt-2">Tech Talks: O Futuro é Agora</h4><p class="mt-2 text-hk-white/70">Palestras rápidas sobre inteligência artificial, cibersegurança, desenvolvimento e inovação.</p></div>
+                </li>
+                <li class="slot">
+                  <time class="slot-time text-hk-blue" datetime="2026-11-21T22:00">22:00</time>
+                  <div><span class="tag tag-pink">Hacking</span><h4 class="slot-title mt-2">Code Rush: início do hackathon</h4><p class="mt-2 text-hk-white/70">Começa o desenvolvimento dos projetos. Planejamento, prototipação e primeiras linhas de código.</p></div>
+                </li>
+              </ol>
+            </section>
+
+            <!-- Fase 2: Madrugada -->
+            <section class="phase bg-linear-to-br from-hk-purple/20 via-hk-pink/5 to-transparent" aria-labelledby="fase-madrugada">
+              <header class="phase-head">
+                <div class="lg:sticky lg:top-24">
+                  <span class="block font-pixel text-4xl leading-none text-hk-purple" aria-hidden="true">✦ ✧</span>
+                  <h3 id="fase-madrugada" class="title mt-4 text-5xl text-hk-purple">Madrugada</h3>
+                  <p class="mt-1 font-pixel text-xl text-hk-white/60">00:00 → 04:59</p>
+                </div>
+              </header>
+              <ol class="divide-y divide-hk-white/10">
+                <li class="slot">
+                  <time class="slot-time text-hk-purple" datetime="2026-11-22T00:00">00:00</time>
+                  <div><span class="tag tag-blue">Mentoria</span><h4 class="slot-title mt-2">Midnight Debugging</h4><p class="mt-2 text-hk-white/70">Sessão coletiva de resolução de bugs, mentoria técnica e troca de conhecimento entre equipes.</p></div>
+                </li>
+                <li class="slot slot-hot">
+                  <time class="slot-time text-hk-pink" datetime="2026-11-22T02:00">02:00</time>
+                  <div>
+                    <div class="flex flex-wrap gap-2"><span class="tag tag-cyan">Desafio</span><span class="tag tag-pink">★ ponto alto</span></div>
+                    <h4 class="slot-title mt-2">Madrugada Hacker: Insomnia Mode</h4>
+                    <p class="mt-2 text-hk-white/70">Desafio surpresa de programação, mini CTF de segurança e missão relâmpago com tempo limitado.</p>
+                  </div>
+                </li>
+                <li class="slot">
+                  <time class="slot-time text-hk-purple" datetime="2026-11-22T03:30">03:30</time>
+                  <div><span class="tag tag-neutral">Pausa</span><h4 class="slot-title mt-2">Coffee &amp; Commit</h4><p class="mt-2 text-hk-white/70">Pausa para café e lanches, revisão do código e últimos ajustes nos projetos.</p></div>
+                </li>
+              </ol>
+            </section>
+
+            <!-- Fase 3: Amanhecer -->
+            <section class="phase bg-linear-to-br from-hk-pink/15 via-hk-yellow/10 to-transparent" aria-labelledby="fase-amanhecer">
+              <header class="phase-head">
+                <div class="lg:sticky lg:top-24">
+                  <span class="block h-5 w-10 rounded-t-full bg-hk-yellow shadow-[0_0_40px_rgb(251_191_36/0.6)]" aria-hidden="true"></span>
+                  <h3 id="fase-amanhecer" class="title mt-5 text-5xl text-hk-yellow">Amanhecer</h3>
+                  <p class="mt-1 font-pixel text-xl text-hk-white/60">05:00 → 07:00</p>
+                </div>
+              </header>
+              <ol class="divide-y divide-hk-white/10">
+                <li class="slot">
+                  <time class="slot-time text-hk-yellow" datetime="2026-11-22T05:00">05:00</time>
+                  <div><span class="tag tag-yellow">Code freeze</span><h4 class="slot-title mt-2">Final Commit: congelamento do código</h4><p class="mt-2 text-hk-white/70">Encerramento do desenvolvimento e preparação das demonstrações e apresentações.</p></div>
+                </li>
+                <li class="slot">
+                  <time class="slot-time text-hk-yellow" datetime="2026-11-22T06:00">06:00</time>
+                  <div><span class="tag tag-purple">Banca</span><h4 class="slot-title mt-2">Sunrise Demo Day</h4><p class="mt-2 text-hk-white/70">Apresentação dos projetos para a banca, demonstrações ao vivo e avaliação final.</p></div>
+                </li>
+                <li class="slot">
+                  <time class="slot-time text-hk-yellow" datetime="2026-11-22T07:00">07:00</time>
+                  <div><span class="tag tag-yellow">Marco</span><h4 class="slot-title mt-2">The Last Level: premiação e encerramento</h4><p class="mt-2 text-hk-white/70">Anúncio dos vencedores, entrega de prêmios, fotos e networking final.</p></div>
+                </li>
+              </ol>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ PALESTRANTES (CRACHÁS) ============ -->
+      <section id="palestrantes" class="border-t border-hk-white/10 bg-hk-surface/40 py-24 sm:py-32">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+          <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <h2 class="title text-5xl sm:text-7xl">Quem vai virar<br />a noite com você</h2>
+            <p class="max-w-sm text-hk-white/70">Palestram às 21h, ficam de plantão no Midnight Debugging e estão na banca do Demo Day.</p>
+          </div>
+
+          <ul class="mt-16 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 [&>li:nth-child(odd)]:-rotate-[1.5deg] [&>li:nth-child(even)]:rotate-[1.2deg] [&>li]:transition [&>li]:duration-300 [&>li:hover]:rotate-0">
+            <li>
+              <article class="badge">
+                <span class="mx-auto mb-4 block h-2 w-14 rounded-full bg-hk-bg ring-1 ring-hk-white/20" aria-hidden="true"></span>
+                <div class="flex items-center justify-between font-pixel text-base text-hk-white/50 uppercase"><span>Madrugada Hacker 26</span><span>#01</span></div>
+                <div class="mt-4 grid size-16 place-items-center bg-hk-purple font-display text-3xl font-black" aria-hidden="true">MO</div>
+                <h3 class="mt-4 font-display text-4xl leading-none font-extrabold uppercase">Marina Okabe</h3>
+                <p class="mt-1 text-sm text-hk-white/60">Staff Engineer · IA aplicada</p>
+                <p class="mt-4 mb-6 text-hk-white/85">“IA como copiloto, não como piloto”</p>
+                <p class="badge-strip bg-hk-purple">Palestrante · 21:00</p>
+              </article>
+            </li>
+            <li>
+              <article class="badge badge-host">
+                <span class="mx-auto mb-4 block h-2 w-14 rounded-full bg-hk-bg ring-1 ring-hk-white/20" aria-hidden="true"></span>
+                <div class="flex items-center justify-between font-pixel text-base text-hk-white/50 uppercase"><span>Madrugada Hacker 26</span><span>#02</span></div>
+                <div class="mt-4 grid size-16 place-items-center bg-hk-pink font-display text-3xl font-black" aria-hidden="true">LA</div>
+                <h3 class="mt-4 font-display text-4xl leading-none font-extrabold uppercase">Lucas Andrade</h3>
+                <p class="mt-1 text-sm text-hk-white/60">Engenheiro de segurança</p>
+                <p class="mt-4 mb-6 text-hk-white/85">Comanda o mini CTF do Insomnia Mode. Traga café.</p>
+                <p class="badge-strip bg-hk-pink">Host do CTF · 02:00</p>
+              </article>
+            </li>
+            <li>
+              <article class="badge">
+                <span class="mx-auto mb-4 block h-2 w-14 rounded-full bg-hk-bg ring-1 ring-hk-white/20" aria-hidden="true"></span>
+                <div class="flex items-center justify-between font-pixel text-base text-hk-white/50 uppercase"><span>Madrugada Hacker 26</span><span>#03</span></div>
+                <div class="mt-4 grid size-16 place-items-center bg-hk-purple font-display text-3xl font-black" aria-hidden="true">RN</div>
+                <h3 class="mt-4 font-display text-4xl leading-none font-extrabold uppercase">Rafael Nogueira</h3>
+                <p class="mt-1 text-sm text-hk-white/60">Developer Advocate · Front-end</p>
+                <p class="mt-4 mb-6 text-hk-white/85">“Do rascunho ao protótipo em uma hora”</p>
+                <p class="badge-strip bg-hk-purple">Palestrante · 21:00</p>
+              </article>
+            </li>
+            <li>
+              <article class="badge">
+                <span class="mx-auto mb-4 block h-2 w-14 rounded-full bg-hk-bg ring-1 ring-hk-white/20" aria-hidden="true"></span>
+                <div class="flex items-center justify-between font-pixel text-base text-hk-white/50 uppercase"><span>Madrugada Hacker 26</span><span>#04</span></div>
+                <div class="mt-4 grid size-16 place-items-center bg-hk-blue font-display text-3xl font-black" aria-hidden="true">BS</div>
+                <h3 class="mt-4 font-display text-4xl leading-none font-extrabold uppercase">Beatriz Santos</h3>
+                <p class="mt-1 text-sm text-hk-white/60">Cientista de dados</p>
+                <p class="mt-4 mb-6 text-hk-white/85">Plantão de dados, APIs e aquele bug que só aparece de madrugada.</p>
+                <p class="badge-strip bg-hk-blue">Mentora · 00:00</p>
+              </article>
+            </li>
+            <li>
+              <article class="badge">
+                <span class="mx-auto mb-4 block h-2 w-14 rounded-full bg-hk-bg ring-1 ring-hk-white/20" aria-hidden="true"></span>
+                <div class="flex items-center justify-between font-pixel text-base text-hk-white/50 uppercase"><span>Madrugada Hacker 26</span><span>#05</span></div>
+                <div class="mt-4 grid size-16 place-items-center bg-hk-blue font-display text-3xl font-black" aria-hidden="true">CI</div>
+                <h3 class="mt-4 font-display text-4xl leading-none font-extrabold uppercase">Camila Ito</h3>
+                <p class="mt-1 text-sm text-hk-white/60">Product Designer</p>
+                <p class="mt-4 mb-6 text-hk-white/85">Ajuda seu time a decidir o que cortar antes do Final Commit.</p>
+                <p class="badge-strip bg-hk-blue">Mentora · 00:00</p>
+              </article>
+            </li>
+            <li>
+              <article class="badge">
+                <span class="mx-auto mb-4 block h-2 w-14 rounded-full bg-hk-bg ring-1 ring-hk-white/20" aria-hidden="true"></span>
+                <div class="flex items-center justify-between font-pixel text-base text-hk-white/50 uppercase"><span>Madrugada Hacker 26</span><span>#06</span></div>
+                <div class="mt-4 grid size-16 place-items-center bg-hk-yellow font-display text-3xl font-black text-hk-bg" aria-hidden="true">TF</div>
+                <h3 class="mt-4 font-display text-4xl leading-none font-extrabold uppercase">Thiago Ferraz</h3>
+                <p class="mt-1 text-sm text-hk-white/60">Cofundador · startup de govtech</p>
+                <p class="mt-4 mb-6 text-hk-white/85">Vai ouvir seu pitch às 6h da manhã. Capriche.</p>
+                <p class="badge-strip bg-hk-yellow text-hk-bg">Banca · 06:00</p>
+              </article>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ LOCAL + PRÊMIOS ============ -->
+      <section id="local" class="py-24 sm:py-32">
+        <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.3fr_1fr] lg:items-center">
+          <div>
+            <h2 class="title text-5xl sm:text-7xl">Saiu às 7h?<br /><span class="text-hk-cyan">O metrô já abriu.</span></h2>
+            <p class="mt-6 max-w-lg text-lg text-hk-white/75">
+              O evento acontece em um hub de inovação na Avenida Paulista, com sala de descanso,
+              bicicletário e acessibilidade. O endereço exato vai no e-mail de confirmação.
+            </p>
+            <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+              <li class="flex items-center gap-3 border border-hk-white/15 p-4">
+                <span class="size-4 shrink-0 bg-[#00A859]" aria-hidden="true"></span>
+                <span><strong class="font-bold">Linha 2-Verde</strong><br /><span class="text-sm text-hk-white/60">Trianon-MASP · Consolação</span></span>
+              </li>
+              <li class="flex items-center gap-3 border border-hk-white/15 p-4">
+                <span class="size-4 shrink-0 bg-[#FFD400]" aria-hidden="true"></span>
+                <span><strong class="font-bold">Linha 4-Amarela</strong><br /><span class="text-sm text-hk-white/60">Estação Paulista</span></span>
+              </li>
+            </ul>
+            <p class="mt-4 font-pixel text-xl text-hk-white/55">* o metrô de SP abre às 4h40</p>
+          </div>
+
+          <!-- Ingresso de premiação -->
+          <div class="relative rotate-2 bg-hk-yellow p-7 text-hk-bg shadow-[8px_8px_0_var(--color-hk-pink)] sm:p-8">
+            <span class="absolute top-1/2 -left-4 size-8 -translate-y-1/2 rounded-full bg-hk-bg" aria-hidden="true"></span>
+            <span class="absolute top-1/2 -right-4 size-8 -translate-y-1/2 rounded-full bg-hk-bg" aria-hidden="true"></span>
+            <p class="font-pixel text-2xl uppercase">Premiação · The Last Level</p>
+            <p class="font-display text-7xl leading-none font-black">R$ 15 mil</p>
+            <ol class="mt-6 space-y-2 border-t-2 border-dashed border-hk-bg/40 pt-5 font-pixel text-2xl">
+              <li class="flex justify-between"><span>1º lugar</span><span>R$ 8.000</span></li>
+              <li class="flex justify-between"><span>2º lugar</span><span>R$ 4.000</span></li>
+              <li class="flex justify-between"><span>3º lugar</span><span>R$ 2.000</span></li>
+              <li class="flex justify-between"><span>Melhor flag do CTF</span><span>R$ 1.000</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ INSCRIÇÃO (início do amanhecer) ============ -->
+      <section id="inscricao" class="relative overflow-hidden bg-linear-to-b from-hk-bg via-hk-purple/15 to-hk-pink/15 py-24 sm:py-32">
+        <div class="relative mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr]">
+          <div>
+            <h2 class="title text-5xl sm:text-7xl">Pega sua vaga<br /><span class="text-gradient">antes que acabe.</span></h2>
+            <p class="mt-6 text-lg text-hk-white/75">Gratuito, para estudantes de graduação ou técnico, maiores de 18. Jantar, café da madrugada e café da manhã inclusos.</p>
+
+            <div class="mt-10">
+              <div class="flex justify-between font-pixel text-xl uppercase">
+                <span class="text-hk-white/70">vagas preenchidas</span>
+                <span><span class="text-hk-yellow">212</span>/300</span>
+              </div>
+              <div class="mt-2 h-4 border border-hk-white/30 p-0.5" role="progressbar" aria-valuenow="212" aria-valuemin="0" aria-valuemax="300" aria-label="Vagas preenchidas">
+                <div class="h-full w-[70.6%] bg-[repeating-linear-gradient(90deg,var(--color-hk-yellow)_0_8px,transparent_8px_11px)]"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-hk-white/15 bg-hk-bg/80 p-6 backdrop-blur sm:p-8">
+            <form id="form-inscricao" novalidate class="grid gap-5 sm:grid-cols-2">
+              <div class="sm:col-span-2">
+                <label for="nome" class="field-label">Nome completo</label>
+                <input id="nome" name="nome" type="text" autocomplete="name" class="field-input" placeholder="Como está no seu documento" aria-describedby="erro-nome" />
+                <p id="erro-nome" class="field-error">&gt; informe nome e sobrenome</p>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label for="email" class="field-label">E-mail</label>
+                <input id="email" name="email" type="email" autocomplete="email" class="field-input" placeholder="voce@universidade.edu.br" aria-describedby="erro-email" />
+                <p id="erro-email" class="field-error">&gt; e-mail inválido</p>
+              </div>
+
+              <div>
+                <label for="universidade" class="field-label">Instituição de ensino</label>
+                <input id="universidade" name="universidade" type="text" class="field-input" placeholder="Ex.: FIAP" aria-describedby="erro-universidade" />
+                <p id="erro-universidade" class="field-error">&gt; informe sua instituição</p>
+              </div>
+
+              <div>
+                <label for="semestre" class="field-label">Semestre atual</label>
+                <select id="semestre" name="semestre" class="field-input" aria-describedby="erro-semestre">
+                  <option value="">Selecione</option>
+                  <option>1º ao 2º</option>
+                  <option>3º ao 4º</option>
+                  <option>5º ao 6º</option>
+                  <option>7º ou mais</option>
+                  <option>Curso técnico</option>
+                </select>
+                <p id="erro-semestre" class="field-error">&gt; selecione o semestre</p>
+              </div>
+
+              <fieldset class="sm:col-span-2" aria-describedby="erro-papel">
+                <legend class="field-label">No time, você é mais de…</legend>
+                <div class="grid grid-cols-2 gap-3">
+                  <label class="choice"><input type="radio" name="papel" value="Desenvolvimento" class="accent-hk-purple" /><span>Código</span></label>
+                  <label class="choice"><input type="radio" name="papel" value="Design" class="accent-hk-purple" /><span>Design</span></label>
+                  <label class="choice"><input type="radio" name="papel" value="Dados & IA" class="accent-hk-purple" /><span>Dados &amp; IA</span></label>
+                  <label class="choice"><input type="radio" name="papel" value="Segurança" class="accent-hk-purple" /><span>Segurança</span></label>
+                </div>
+                <p id="erro-papel" class="field-error">&gt; escolha uma opção</p>
+              </fieldset>
+
+              <fieldset class="sm:col-span-2">
+                <legend class="field-label">Já tem time?</legend>
+                <div class="grid gap-3 sm:grid-cols-2">
+                  <label class="choice"><input type="radio" name="time" value="sim" class="accent-hk-purple" /><span>Sim, já tenho</span></label>
+                  <label class="choice"><input type="radio" name="time" value="nao" class="accent-hk-purple" checked /><span>Não, quero formar lá</span></label>
+                </div>
+              </fieldset>
+
+              <div class="space-y-3 sm:col-span-2">
+                <div>
+                  <label class="flex cursor-pointer items-start gap-3 text-sm text-hk-white/80">
+                    <input id="maioridade" name="maioridade" type="checkbox" class="mt-0.5 size-4 accent-hk-purple" aria-describedby="erro-maioridade" />
+                    <span>Tenho 18 anos ou mais (o evento atravessa a madrugada).</span>
+                  </label>
+                  <p id="erro-maioridade" class="field-error">&gt; evento só para maiores de 18</p>
+                </div>
+                <div>
+                  <label class="flex cursor-pointer items-start gap-3 text-sm text-hk-white/80">
+                    <input id="termos" name="termos" type="checkbox" class="mt-0.5 size-4 accent-hk-purple" aria-describedby="erro-termos" />
+                    <span>Li e aceito o regulamento e o código de conduta.</span>
+                  </label>
+                  <p id="erro-termos" class="field-error">&gt; é preciso aceitar o regulamento</p>
+                </div>
+              </div>
+
+              <div class="sm:col-span-2">
+                <button type="submit" class="btn btn-primary w-full">Confirmar inscrição</button>
+              </div>
+            </form>
+
+            <!-- Estado de sucesso -->
+            <div id="inscricao-sucesso" class="hidden py-4" tabindex="-1">
+              <p class="font-pixel text-2xl text-hk-cyan">&gt; inscrição enviada_</p>
+              <h3 class="title mt-3 text-5xl">Te vejo às 19h.</h3>
+              <p class="mt-3 text-hk-white/75" id="sucesso-texto"></p>
+              <button type="button" id="nova-inscricao" class="btn btn-outline mt-8">Fazer outra inscrição</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section id="faq" class="bg-linear-to-b from-hk-pink/15 to-hk-pink/10 py-24 sm:py-32">
+        <div class="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.6fr]">
+          <h2 class="title text-5xl sm:text-7xl">Perguntas<br />de quem nunca<br />virou a noite</h2>
+          <div class="divide-y divide-hk-white/15 border-y border-hk-white/15">
+            <details class="group" name="faq">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-2xl font-bold uppercase [&::-webkit-details-marker]:hidden">
+                Preciso ficar acordado a noite toda?
+                <span class="font-pixel text-3xl text-hk-pink transition group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="pb-5 text-hk-white/75">Não. Tem sala de descanso com luz baixa e pufes. Só precisa ter alguém do time no Final Commit (5h) e no Demo Day (6h).</p>
+            </details>
+            <details class="group" name="faq">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-2xl font-bold uppercase [&::-webkit-details-marker]:hidden">
+                Posso usar IA no projeto?
+                <span class="font-pixel text-3xl text-hk-pink transition group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="pb-5 text-hk-white/75">Pode. Mas a banca vai perguntar o porquê de cada decisão, então o time precisa saber explicar o que construiu.</p>
+            </details>
+            <details class="group" name="faq">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-2xl font-bold uppercase [&::-webkit-details-marker]:hidden">
+                Menor de idade pode participar?
+                <span class="font-pixel text-3xl text-hk-pink transition group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="pb-5 text-hk-white/75">Dessa vez não. Como o evento atravessa a madrugada, a inscrição é só para maiores de 18.</p>
+            </details>
+            <details class="group" name="faq">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-2xl font-bold uppercase [&::-webkit-details-marker]:hidden">
+                O que eu levo?
+                <span class="font-pixel text-3xl text-hk-pink transition group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="pb-5 text-hk-white/75">Notebook, carregador, documento com foto, garrafinha e um casaco. A Paulista esfria de madrugada.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER (nascer do sol) ============ -->
+    <footer class="relative overflow-hidden bg-linear-to-b from-hk-pink/10 via-hk-yellow/15 to-hk-yellow/30">
+      <div class="pointer-events-none absolute -bottom-40 left-1/2 h-72 w-[36rem] max-w-[140vw] -translate-x-1/2 rounded-t-full bg-hk-yellow shadow-[0_0_120px_40px_rgb(251_191_36/0.45)]" aria-hidden="true"></div>
+      <div class="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 pt-20 pb-44 text-center sm:px-6">
+        <p class="title text-6xl sm:text-8xl">Bom dia,<br />hacker.</p>
+        <a href="#inscricao" class="btn btn-primary">Garantir minha vaga</a>
+        <p class="font-pixel text-lg text-hk-white/70 uppercase">Evento fictício · projeto acadêmico de Front-end · FIAP 1ESPW</p>
+      </div>
+    </footer>
+
+    <script>
+      // ---------- Navbar: fundo ao rolar + menu mobile ----------
+      const header = document.getElementById("topo");
+      const relogioHora = document.getElementById("relogio-hora");
+      const relogioIcone = document.getElementById("relogio-icone");
+
+      function onScroll() {
+        const scrolled = window.scrollY > 16;
+        header.classList.toggle("bg-hk-bg/85", scrolled);
+        header.classList.toggle("backdrop-blur-lg", scrolled);
+        header.classList.toggle("border-hk-white/10", scrolled);
+
+        // Relógio: topo da página = 19:00, fim = 07:00
+        const max = document.documentElement.scrollHeight - innerHeight;
+        const progresso = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+        const minutos = 19 * 60 + Math.round(progresso * 12 * 60);
+        const h = Math.floor(minutos / 60) % 24;
+        relogioHora.textContent = `${String(h).padStart(2, "0")}:${String(minutos % 60).padStart(2, "0")}`;
+        relogioIcone.textContent = h >= 5 && h < 19 ? "☀" : "☾";
+        relogioIcone.className = h >= 5 && h < 19 ? "text-hk-yellow" : "text-hk-cyan";
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      const menuToggle = document.getElementById("menu-toggle");
+      const menuMobile = document.getElementById("menu-mobile");
+      const setMenu = (open) => {
+        menuMobile.classList.toggle("hidden", !open);
+        menuToggle.setAttribute("aria-expanded", String(open));
+        menuToggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      };
+      menuToggle.addEventListener("click", () => setMenu(menuMobile.classList.contains("hidden")));
+      menuMobile.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+
+      // ---------- Contagem regressiva ----------
+      const INICIO = new Date("2026-11-21T19:00:00-03:00").getTime();
+      const FIM = new Date("2026-11-22T07:00:00-03:00").getTime();
+      const label = document.getElementById("countdown-label");
+      const units = {};
+      document.querySelectorAll("[data-unit]").forEach((el) => (units[el.dataset.unit] = el));
+      const pad = (n) => String(n).padStart(2, "0");
+
+      function tick() {
+        const agora = Date.now();
+        let diff = INICIO - agora;
+        if (diff <= 0) {
+          label.textContent = agora < FIM ? "> acontecendo agora_" : "> edição encerrada. até 2027_";
+          diff = 0;
+        }
+        units.days.textContent = pad(Math.floor(diff / 86400000));
+        units.hours.textContent = pad(Math.floor(diff / 3600000) % 24);
+        units.minutes.textContent = pad(Math.floor(diff / 60000) % 60);
+        units.seconds.textContent = pad(Math.floor(diff / 1000) % 60);
+        return diff > 0;
+      }
+      if (tick()) {
+        const timer = setInterval(() => tick() || clearInterval(timer), 1000);
+      }
+
+      // ---------- Formulário de inscrição ----------
+      const form = document.getElementById("form-inscricao");
+      const sucesso = document.getElementById("inscricao-sucesso");
+      let tentouEnviar = false;
+
+      const regras = {
+        nome: () => form.nome.value.trim().split(/\s+/).length >= 2,
+        email: () => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim()),
+        universidade: () => form.universidade.value.trim().length >= 2,
+        semestre: () => form.semestre.value !== "",
+        papel: () => !!form.querySelector('input[name="papel"]:checked'),
+        maioridade: () => form.maioridade.checked,
+        termos: () => form.termos.checked,
+      };
+
+      function validarCampo(nome) {
+        const ok = regras[nome]();
+        document.getElementById("erro-" + nome).classList.toggle("is-visible", !ok);
+        const campo = form.elements[nome];
+        if (campo && !(campo instanceof RadioNodeList)) campo.setAttribute("aria-invalid", String(!ok));
+        return ok;
+      }
+
+      Object.keys(regras).forEach((nome) => {
+        const alvo = form.elements[nome];
+        const els = alvo instanceof RadioNodeList ? [...alvo] : [alvo];
+        els.forEach((el) =>
+          el.addEventListener(el.type === "text" || el.type === "email" ? "input" : "change", () => tentouEnviar && validarCampo(nome))
+        );
+      });
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        tentouEnviar = true;
+        const invalidos = Object.keys(regras).filter((nome) => !validarCampo(nome));
+        if (invalidos.length) {
+          const primeiro = form.elements[invalidos[0]];
+          (primeiro instanceof RadioNodeList ? primeiro[0] : primeiro).focus();
+          return;
+        }
+        const primeiroNome = form.nome.value.trim().split(/\s+/)[0];
+        const papel = form.querySelector('input[name="papel"]:checked').value;
+        document.getElementById("sucesso-texto").textContent =
+          `Valeu, ${primeiroNome}! Sua vaga (${papel}) está pré-reservada. Confirme pelo link que mandamos no seu e-mail.`;
+        form.classList.add("hidden");
+        sucesso.classList.remove("hidden");
+        sucesso.focus();
+      });
+
+      document.getElementById("nova-inscricao").addEventListener("click", () => {
+        form.reset();
+        tentouEnviar = false;
+        form.querySelectorAll(".field-error").forEach((el) => el.classList.remove("is-visible"));
+        form.querySelectorAll("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
+        sucesso.classList.add("hidden");
+        form.classList.remove("hidden");
+        form.nome.focus();
+      });
+    </script>
+  </body>
+</html>
